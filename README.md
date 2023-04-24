@@ -79,3 +79,71 @@ server {
 
 ![Reverse Proxy](resources/reverse_proxy.JPG)
 
+
+## Creating new EC2 Instance for Database
+1. Create a new EC2 Instance in your AWS account. 
+2. For OS use Ubuntu 18.04 !! (20.04 doesn't let MongoDB being installed)
+3. Change security group:
+    * Add SSH connection with "MyIP" rule
+    * Add "Custom TCP" connection with port "27017" for MondoDP and "IP from anywhere (0.0.0.0)"
+    * Add "Custom TCP" connection with port "3000" for SpartaApp and "IP from anywhere (0.0.0.0)"
+4. Click on "Launch Instance"
+5. Connect to the Instance using SSH connection and GitBash terminal
+6. Run following commands in order to install MongoDB on your instance:
+
+```
+sudo apt update -y 
+
+sudo apt upgrade -y
+
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv D68FA50FEA312927
+
+echo "deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+
+sudo apt update -y 
+
+sudo apt upgrade -y
+
+sudo apt-get install -y mongodb-org=3.2.20 mongodb-org-server=3.2.20 mongodb-org-shell=3.2.20 mongodb-org-mongos=3.2.20 mongodb-org-tools=3.2.20
+
+sudo systemctl start mongod
+```
+
+## Connecting DB machine and App machine
+
+On the DB Instance:
+1. `cd` to home folder
+2. `sudo nano /etc/mongod.conf` - open mongod configuration file
+3. Scroll down, change `bindip` to `0.0.0.0`
+4. Save file by pressing `ctrl+x` to exit, then `y` to save changes, and then `enter` to confirm
+5. Restart mongod - `sudo systemctl restart mongod`
+6. `sudo systemctl enable mongod` - enable autostart of mongo
+7. `sudo systemctl status mongod` - ensure that mongo is running
+
+On the App Instance:
+1. Use `cd` to go back to home folder
+2. `sudo nano .bashrc` - open .bashrc file to create your environment variable there
+3. Scroll to the bottom and write export `DB_HOST=mongodb://<server>:27017/posts`, where:
+
+    * `export DB_HOST` - creating an environment variable called DB_HOST
+    * `mongodb://<server>:27017/posts` - telling machine to connect to mongodb database at the specific IP address that we have assigned in our DB Instance and to the page called posts
+4. `source .bashrc` -restarts .bashrc file to apply changes
+
+5. `cd app` - navigate inside the app folder
+
+6. `node seeds/seed.js` - seed data to database
+
+7. Run the app by using `node app.js &`
+
+8. Type your `App Instance IP/posts` in the browser to check if posts page works and it takes the data from the mongodb
+
+![Posts page](resources/posts_page.JPG)
+
+
+
+
+!!Important!!
+
+* `lsof -i tcp:3000 $ kill -9 PID` - kill the process inside the port
+* `export DB_HOST=mongodb://[ip of db instance]:27017/posts` - envirenment variable for app
+
