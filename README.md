@@ -87,6 +87,10 @@ server {
     * Add SSH connection with "MyIP" rule
     * Add "Custom TCP" connection with port "27017" for MondoDP and "IP from anywhere (0.0.0.0)"
     * Add "Custom TCP" connection with port "3000" for SpartaApp and "IP from anywhere (0.0.0.0)"
+
+    ![SG Rules](resources/db_ec2_SG_rules.JPG)
+
+    
 4. Click on "Launch Instance"
 5. Connect to the Instance using SSH connection and GitBash terminal
 6. Run following commands in order to install MongoDB on your instance:
