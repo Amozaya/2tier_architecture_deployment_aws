@@ -45,3 +45,37 @@ App is available on port 3000
 3. Your app should be running now
 
 ![App deployed](resources/app_deployed_on_EC2.JPG)
+
+
+## Reverse Proxy
+
+1. Use command `cd /etc/nginx/sites-available` in order to navigate inside the nginx configuration folder
+2. Create a new configuration file with nano by using the following command: `sudo nano nodeapp.conf` (name could be anything, but try to make logical)
+3. Inside the file type the following code:
+```
+server {
+   listen 80;
+   server_name <server name>;
+
+   location / {
+       proxy_pass http://<server name>:3000;
+       proxy_set_header Host $host;
+       proxy_set_header X-Real-IP $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_set_header X-Forwarded-Proto $scheme;
+   }
+}
+```
+`<server name>` - your EC2 IP address
+
+4. Use `ctrl+x` to exit nano, then press `y` to save the changes, and then press `enter` to save the name of the file
+5. Enable the configuration by creating a symbolic link to enable a new config file: `sudo ln -s /etc/nginx/sites-available/nodeapp.conf /etc/nginx/sites-enabled/nodeapp.conf`
+6. Check configuration for errors `sudo nginx -t`
+7. Reload nginx - `sudo systemctl reload nginx`
+8. Enable nginx - `sudo systemctl enable nginx`
+9. Go back to your home folder by using `cd` command and then navigate in to `cd app`
+10. Launch app in the backgroun by using `node app.js &`
+11. Paste your ip, without port number, into browser and check if it works:
+
+![Reverse Proxy](resources/reverse_proxy.JPG)
+
