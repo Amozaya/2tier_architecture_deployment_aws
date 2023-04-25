@@ -90,7 +90,7 @@ server {
 
     ![SG Rules](resources/db_ec2_SG_rules.JPG)
 
-    
+
 4. Click on "Launch Instance"
 5. Connect to the Instance using SSH connection and GitBash terminal
 6. Run following commands in order to install MongoDB on your instance:
@@ -150,4 +150,5 @@ On the App Instance:
 
 * `lsof -i tcp:3000 $ kill -9 PID` - kill the process inside the port
 * `export DB_HOST=mongodb://[ip of db instance]:27017/posts` - envirenment variable for app
-
+* `ami-07b63aa1cfd3bc3a5` - Ubuntu 18.04 AMI
+* `sudo lsof -i :3000` - check what processes are running on port 3000
