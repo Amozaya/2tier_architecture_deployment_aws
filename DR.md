@@ -127,7 +127,7 @@ s3.download_file('oleg-tech221', 'test.txt', 'test.txt')
 4. Run script using `python3 get-file.py`
 5. Use `ls` to check if file was downloaded
 
-### delete file from S3 using boto3
+### Delete file from S3 using boto3
 1. Create a new scipt using `sudo nano delete-object.py`
 2. Type the following command:
 ```
