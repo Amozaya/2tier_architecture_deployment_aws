@@ -1,3 +1,8 @@
+# Monitoring and Alert management
+
+![Monitoring diagram](resources/AWS_monitoring_diagram.png)
+
+
 ## why do we need monitoring?
 
 * Organisation can catch problems early
@@ -26,6 +31,8 @@ Helpt you to manage the requests by ensuring they are being processed in order (
 **Cloud Watch**
 
 CloudWatch used for monitoring and managing services and resources that are in use. 
+
+![Amazon Cloud Watch](resources/AWS_Watch_diagram.png)
 
 
 ## How to create a SNS
